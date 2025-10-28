@@ -15,24 +15,43 @@ import {useForm} from 'react-hook-form';
 import {Link} from 'react-router';
 import {z} from 'zod';
 import {zodResolver} from '@hookform/resolvers/zod';
+import Password from '@/components/ui/Password';
 
-const formSchema = z.object({
-    name: z.string().max(20).min(2),
-});
+const userRegistrationSchema = z
+    .object({
+        name: z
+            .string()
+            .min(3, {
+                error: 'Name is too short',
+            })
+            .max(50),
+        email: z.email(),
+        password: z.string().min(8, {error: 'Password is too short'}),
+        confirmPassword: z
+            .string()
+            .min(8, {error: 'Confirm Password is too short'}),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+        message: 'Password do not match',
+        path: ['confirmPassword'],
+    });
 
 function RegistrationForm({
     className,
     ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const form = useForm<z.infer<typeof userRegistrationSchema>>({
+        resolver: zodResolver(userRegistrationSchema),
         defaultValues: {
             name: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
         },
     });
 
-    const onSubmit = (data: z.infer<typeof formSchema>) => {
-        console.log(data.name);
+    const onSubmit = (data: z.infer<typeof userRegistrationSchema>) => {
+        console.log(data);
     };
     return (
         <div className={cn('flex flex-col gap-6', className)} {...props}>
@@ -46,56 +65,90 @@ function RegistrationForm({
 
             {/* Form Fields */}
             <div className='grid gap-6'>
-                <Form
-                    {...form}
-                    //className='space-y-6'
-                >
-                    <form onSubmit={form.handleSubmit(onSubmit)}>
+                <Form {...form}>
+                    <form
+                        className='space-y-6'
+                        onSubmit={form.handleSubmit(onSubmit)}
+                    >
+                        {/* name */}
                         <FormField
                             control={form.control}
                             name='name'
                             render={({field}) => (
                                 <FormItem>
-                                    <FormLabel>Username</FormLabel>
+                                    <FormLabel>Name</FormLabel>
                                     <FormControl>
                                         <Input
-                                            placeholder='shadcn'
+                                            placeholder='John Doe'
+                                            type='text'
                                             {...field}
                                         />
                                     </FormControl>
-                                    <FormDescription>
+                                    <FormDescription className='sr-only'>
                                         This is your public display name.
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
-                        <div className='space-y-2'>
-                            <label className='text-sm font-medium'>Name</label>
-                            <Input placeholder='John Doe' />
-                        </div>
 
-                        <div className='space-y-2'>
-                            <label className='text-sm font-medium'>Email</label>
-                            <Input
-                                placeholder='john.doe@company.com'
-                                type='email'
-                            />
-                        </div>
+                        {/* email */}
+                        <FormField
+                            control={form.control}
+                            name='email'
+                            render={({field}) => (
+                                <FormItem>
+                                    <FormLabel>Email</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            placeholder='john@example.com'
+                                            type='email'
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormDescription className='sr-only'>
+                                        This is your email id.
+                                    </FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
-                        <div className='space-y-2'>
-                            <label className='text-sm font-medium'>
-                                Password
-                            </label>
-                            <Input placeholder='••••••••' type='password' />
-                        </div>
+                        {/* password */}
+                        <FormField
+                            control={form.control}
+                            name='password'
+                            render={({field}) => (
+                                <FormItem>
+                                    <FormLabel>Password</FormLabel>
+                                    <FormControl>
+                                        <Password {...field} />
+                                    </FormControl>
+                                    <FormDescription className='sr-only'>
+                                        This is your password.
+                                    </FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
-                        <div className='space-y-2'>
-                            <label className='text-sm font-medium'>
-                                Confirm Password
-                            </label>
-                            <Input placeholder='••••••••' type='password' />
-                        </div>
+                        {/* confirm password */}
+                        <FormField
+                            control={form.control}
+                            name='confirmPassword'
+                            render={({field}) => (
+                                <FormItem>
+                                    <FormLabel>Confirm password</FormLabel>
+                                    <FormControl>
+                                        <Password {...field} />
+                                    </FormControl>
+                                    <FormDescription className='sr-only'>
+                                        This is your confirm password.
+                                    </FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
                         <Button type='submit' className='w-full'>
                             Submit
@@ -132,3 +185,30 @@ function RegistrationForm({
 }
 
 export default RegistrationForm;
+
+//  <div className='space-y-2'>
+//                             <label className='text-sm font-medium'>Name</label>
+//                             <Input placeholder='John Doe' />
+//                         </div>
+
+//                         <div className='space-y-2'>
+//                             <label className='text-sm font-medium'>Email</label>
+//                             <Input
+//                                 placeholder='john.doe@company.com'
+//                                 type='email'
+//                             />
+//                         </div>
+
+//                         <div className='space-y-2'>
+//                             <label className='text-sm font-medium'>
+//                                 Password
+//                             </label>
+//                             <Input placeholder='••••••••' type='password' />
+//                         </div>
+
+//                         <div className='space-y-2'>
+//                             <label className='text-sm font-medium'>
+//                                 Confirm Password
+//                             </label>
+//                             <Input placeholder='••••••••' type='password' />
+//                         </div>
