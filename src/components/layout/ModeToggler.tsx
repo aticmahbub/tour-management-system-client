@@ -11,7 +11,6 @@ import {useTheme} from '@/hooks/useTheme';
 
 export function ModeToggle() {
     const {setTheme} = useTheme();
-    console.log({setTheme});
 
     return (
         <DropdownMenu>
