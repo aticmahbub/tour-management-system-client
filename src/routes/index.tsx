@@ -1,5 +1,7 @@
 import App from '@/App';
 import About from '@/pages/About';
+import Login from '@/pages/auth/Login';
+import Registration from '@/pages/auth/Registration';
 
 import {createBrowserRouter} from 'react-router';
 
@@ -12,16 +14,14 @@ export const router = createBrowserRouter([
                 Component: About,
                 path: '/about',
             },
+            {
+                path: '/login',
+                Component: Login,
+            },
+            {
+                path: '/registration',
+                Component: Registration,
+            },
         ],
     },
-    // {
-    //     path: '/admin',
-    //     Component: AdminLayout,
-    //     children: [
-    //         {
-    //             path: 'analytics',
-    //             Component: Analytics,
-    //         },
-    //     ],
-    // },
 ]);
