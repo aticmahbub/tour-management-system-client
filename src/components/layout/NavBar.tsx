@@ -7,6 +7,7 @@ import {
     NavigationMenuList,
 } from '../ui/navigation-menu';
 import Logo from '@/assets/icons/logo';
+import {ModeToggle} from './ModeToggler';
 
 function NavBar() {
     const navigationLinks = [
@@ -107,6 +108,7 @@ function NavBar() {
                 </div>
                 {/* Right side */}
                 <div className='flex items-center gap-2'>
+                    <ModeToggle />
                     <Button
                         asChild
                         variant='ghost'
