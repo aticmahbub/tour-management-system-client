@@ -6,12 +6,15 @@ import {router} from './routes';
 import {ThemeProvider} from './providers/theme.provider';
 import {Provider} from 'react-redux';
 import {store} from './redux/store';
+import {Toaster} from './components/ui/sonner';
+// import {Toaster} from 'sonner';
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <Provider store={store}>
             <ThemeProvider>
                 <RouterProvider router={router} />
+                <Toaster />
             </ThemeProvider>
         </Provider>
     </StrictMode>,
