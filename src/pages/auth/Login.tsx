@@ -1,6 +1,7 @@
 import {Link} from 'react-router';
 import LoginImage from '../../assets/images/travel-login.jpg';
 import Logo from '@/assets/icons/logo';
+import LoginForm from '@/components/modules/Authentication/LoginForm';
 
 function Login() {
     return (
@@ -15,7 +16,9 @@ function Login() {
                     </Link>
                 </div>
                 <div className='flex flex-1 items-center justify-center'>
-                    <div className='w-full max-w-xs'>{/* <LoginForm /> */}</div>
+                    <div className='w-full max-w-xs'>
+                        <LoginForm />
+                    </div>
                 </div>
             </div>
             <div className='relative hidden bg-muted lg:block'>
