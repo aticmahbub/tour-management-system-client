@@ -1,4 +1,4 @@
-export type {ISendOTP} from './otp.types';
+export type {ISendOTP, IVerifyOTP} from './otp.types';
 export type {ILogin} from './login.types';
 
 export interface IResponse<T> {
