@@ -8,6 +8,7 @@ import {
     FormMessage,
 } from '@/components/ui/form';
 import {Input} from '@/components/ui/input';
+import config from '@/config';
 import {cn} from '@/lib/utils';
 import {useLoginMutation} from '@/redux/features/auth/auth.api';
 import type React from 'react';
@@ -121,6 +122,7 @@ function LoginForm({
                 </div>
 
                 <Button
+                    onClick={() => window.open(`${config.baseUrl}/auth/google`)}
                     type='button'
                     variant='outline'
                     className='w-full cursor-pointer'

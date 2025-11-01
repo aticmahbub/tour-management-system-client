@@ -223,7 +223,7 @@ function Verify() {
                     <CardContent></CardContent>
                     <CardFooter className='flex justify-end'>
                         <Button
-                            onClick={handleConfirm}
+                            onClick={handleSendOtp}
                             form='otp-form'
                             type='submit'
                             className='w-[300px]'

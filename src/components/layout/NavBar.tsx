@@ -9,8 +9,11 @@ import {
 import Logo from '@/assets/icons/logo';
 import {ModeToggle} from './ModeToggler';
 import {Link} from 'react-router';
+import {useUserInfoQuery} from '@/redux/features/auth/auth.api';
 
 function NavBar() {
+    const {data} = useUserInfoQuery(undefined);
+    console.log(data);
     const navigationLinks = [
         {href: '/', label: 'Home'},
         {href: '/about', label: 'About'},
