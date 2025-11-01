@@ -17,6 +17,7 @@ import {
     FormMessage,
 } from '@/components/ui/form';
 import {InputOTP, InputOTPGroup, InputOTPSlot} from '@/components/ui/input-otp';
+import {cn} from '@/lib/utils';
 import {
     useSendOtpMutation,
     useVerifyOtpMutation,
@@ -46,6 +47,7 @@ function Verify() {
 
     const [sendOtp] = useSendOtpMutation();
     const [verifyOtp] = useVerifyOtpMutation();
+    const [timer, setTimer] = useState(10);
 
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
@@ -54,25 +56,9 @@ function Verify() {
         },
     });
 
-    const handleConfirm = async () => {
-        const toastId = toast.loading('Sending OTP');
-        try {
-            const res = await sendOtp(email).unwrap();
-            if (res.success) {
-                toast.success('OTP sent successfully', {id: toastId});
-            }
-            setConfirmed(true);
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } catch (error: any) {
-            if (error.status === 404) {
-                toast.error('Account is already verified', {id: toastId});
-            }
-        }
-    };
-
     const onSubmit = async (data: z.infer<typeof FormSchema>) => {
         console.log(data);
-        const toastId = toast.loading('Sending OTP');
+        const toastId = toast.loading('Verifying OTP');
         const userInfo = {email: email.email, otp: data.otp};
         try {
             const res = await verifyOtp(userInfo).unwrap();
@@ -80,6 +66,7 @@ function Verify() {
             if (res.success) {
                 toast.success('Otp is verified successfully', {id: toastId});
                 setConfirmed(true);
+                navigate('dashboard');
             }
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
@@ -89,11 +76,42 @@ function Verify() {
         }
     };
 
+    const handleSendOtp = async () => {
+        const toastId = toast.loading('Sending OTP');
+        try {
+            const res = await sendOtp(email).unwrap();
+            if (res.success) {
+                toast.success('OTP sent successfully', {id: toastId});
+                setConfirmed(true);
+                setTimer(0);
+            }
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            if (error.status === 404) {
+                toast.success('Already verified', {id: toastId});
+            }
+        }
+        setConfirmed(true);
+        setTimer(129);
+    };
+
     useEffect(() => {
         if (!email) {
             navigate('/');
         }
     }, [email]);
+
+    useEffect(() => {
+        if (!email || !confirmed) {
+            return;
+        }
+        const timerId = setInterval(() => {
+            if (email && confirmed) {
+                setTimer((prevCount) => (prevCount > 0 ? prevCount - 1 : 0));
+            }
+        }, 1000);
+        return () => clearInterval(timerId);
+    }, [email, confirmed]);
     return (
         <div className='grid place-content-center h-screen'>
             {confirmed ? (
@@ -157,9 +175,22 @@ function Verify() {
                                                     </InputOTPGroup>
                                                 </InputOTP>
                                             </FormControl>
-                                            <FormDescription className='sr-only'>
-                                                Please enter the one-time
-                                                password sent to your phone.
+                                            <FormDescription className=''>
+                                                <Button
+                                                    className={cn('p-0 m-0', {
+                                                        'cursor-pointer':
+                                                            timer === 0,
+                                                        'text-grey-5000':
+                                                            timer !== 0,
+                                                    })}
+                                                    disabled={timer !== 0}
+                                                    onClick={handleSendOtp}
+                                                    type='button'
+                                                    variant='link'
+                                                >
+                                                    Resend OTP
+                                                </Button>{' '}
+                                                {timer}
                                             </FormDescription>
                                             <FormMessage />
                                         </FormItem>
