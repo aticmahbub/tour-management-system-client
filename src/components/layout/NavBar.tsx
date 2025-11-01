@@ -9,15 +9,24 @@ import {
 import Logo from '@/assets/icons/logo';
 import {ModeToggle} from './ModeToggler';
 import {Link} from 'react-router';
-import {useUserInfoQuery} from '@/redux/features/auth/auth.api';
+import {
+    useLogoutMutation,
+    useUserInfoQuery,
+} from '@/redux/features/auth/auth.api';
 
 function NavBar() {
     const {data} = useUserInfoQuery(undefined);
+    const [logOut] = useLogoutMutation();
+
     console.log(data);
     const navigationLinks = [
         {href: '/', label: 'Home'},
         {href: '/about', label: 'About'},
     ];
+
+    const handleLogout = () => {
+        logOut(undefined);
+    };
     return (
         <header className='border-b px-4 md:px-6'>
             <div className='container px-4 mx-auto flex h-16 items-center justify-between gap-4'>
@@ -112,9 +121,19 @@ function NavBar() {
                 {/* Right side */}
                 <div className='flex items-center gap-2'>
                     <ModeToggle />
-                    <Button asChild className='text-sm'>
-                        <Link to='/login'>Login</Link>
-                    </Button>
+                    {data?.data.email ? (
+                        <Button
+                            onClick={handleLogout}
+                            variant={'outline'}
+                            className='text-sm'
+                        >
+                            Logout
+                        </Button>
+                    ) : (
+                        <Button asChild className='text-sm'>
+                            <Link to='/login'>Login</Link>
+                        </Button>
+                    )}
                 </div>
             </div>
         </header>
