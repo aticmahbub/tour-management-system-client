@@ -10,13 +10,16 @@ import Logo from '@/assets/icons/logo';
 import {ModeToggle} from './ModeToggler';
 import {Link} from 'react-router';
 import {
+    authApi,
     useLogoutMutation,
     useUserInfoQuery,
 } from '@/redux/features/auth/auth.api';
+import {useDispatch} from 'react-redux';
 
 function NavBar() {
     const {data} = useUserInfoQuery(undefined);
     const [logOut] = useLogoutMutation();
+    const dispatch = useDispatch();
 
     console.log(data);
     const navigationLinks = [
@@ -26,6 +29,7 @@ function NavBar() {
 
     const handleLogout = () => {
         logOut(undefined);
+        dispatch(authApi.util.resetApiState());
     };
     return (
         <header className='border-b px-4 md:px-6'>

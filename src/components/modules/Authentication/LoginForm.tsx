@@ -31,10 +31,10 @@ function LoginForm({
     const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
         try {
             const res = await login(data).unwrap();
-            console.log(res);
-
-            toast.success('Logged in successfully!');
-            navigate('/', {state: data.email});
+            if (res.success) {
+                toast.success('Logged in successfully!');
+                navigate('/', {state: data.email});
+            }
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             console.log(error);
