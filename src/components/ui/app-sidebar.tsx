@@ -14,7 +14,6 @@ import {
     SidebarRail,
 } from '@/components/ui/sidebar';
 import Logo from '@/assets/icons/logo';
-import {Link} from 'react-router';
 import {adminSideBarItems} from '@/routes/adminSideBarItems';
 
 // This is sample data.
@@ -34,9 +33,9 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
                         {data.navMain.map((item) => (
                             <SidebarMenuItem key={item.title}>
                                 <SidebarMenuButton asChild>
-                                    <Link to={item.url} className='font-medium'>
+                                    <h2 className='font-medium'>
                                         {item.title}
-                                    </Link>
+                                    </h2>
                                 </SidebarMenuButton>
                                 {item.items?.length ? (
                                     <SidebarMenuSub>
@@ -44,10 +43,7 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
                                             <SidebarMenuSubItem
                                                 key={item.title}
                                             >
-                                                <SidebarMenuSubButton
-                                                    asChild
-                                                    isActive={item.isActive}
-                                                >
+                                                <SidebarMenuSubButton asChild>
                                                     <a href={item.url}>
                                                         {item.title}
                                                     </a>
