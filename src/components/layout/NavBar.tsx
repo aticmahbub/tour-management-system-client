@@ -23,10 +23,12 @@ function NavBar() {
     const dispatch = useDispatch();
 
     console.log(data);
+
     const navigationLinks = [
         {href: '/', label: 'Home', role: 'PUBLIC'},
         {href: '/about', label: 'About', role: 'PUBLIC'},
         {href: '/admin', label: 'Dashboard', role: role.admin},
+        {href: '/super-admin', label: 'Dashboard', role: role.superAdmin},
         {href: '/user', label: 'Dashboard', role: role.user},
     ];
 
@@ -35,8 +37,8 @@ function NavBar() {
         dispatch(authApi.util.resetApiState());
     };
     return (
-        <header className='border-b px-4 md:px-6'>
-            <div className='container px-4 mx-auto flex h-16 items-center justify-between gap-4'>
+        <header className='border-b'>
+            <div className='container mx-auto px-4 flex h-16 items-center justify-between gap-4'>
                 {/* Left side */}
                 <div className='flex items-center gap-2'>
                     {/* Mobile menu trigger */}
@@ -86,11 +88,12 @@ function NavBar() {
                                             className='w-full'
                                         >
                                             <NavigationMenuLink
-                                                href={link.href}
+                                                asChild
                                                 className='py-1.5'
-                                                // active={link.active}
                                             >
-                                                {link.label}
+                                                <Link to={link.href}>
+                                                    {link.label}{' '}
+                                                </Link>
                                             </NavigationMenuLink>
                                         </NavigationMenuItem>
                                     ))}
@@ -100,26 +103,42 @@ function NavBar() {
                     </Popover>
                     {/* Main nav */}
                     <div className='flex items-center gap-6'>
-                        <Link
-                            to={'/'}
+                        <a
+                            href='#'
                             className='text-primary hover:text-primary/90'
                         >
                             <Logo />
-                        </Link>
+                        </a>
                         {/* Navigation menu */}
                         <NavigationMenu className='max-md:hidden'>
                             <NavigationMenuList className='gap-2'>
                                 {navigationLinks.map((link, index) => (
-                                    <NavigationMenuItem key={index}>
-                                        <NavigationMenuLink
-                                            asChild
-                                            className='py-1.5 font-medium text-muted-foreground hover:text-primary'
-                                        >
-                                            <Link to={link.href}>
-                                                {link.label}
-                                            </Link>
-                                        </NavigationMenuLink>
-                                    </NavigationMenuItem>
+                                    <>
+                                        {link.role === 'PUBLIC' && (
+                                            <NavigationMenuItem key={index}>
+                                                <NavigationMenuLink
+                                                    asChild
+                                                    className='text-muted-foreground hover:text-primary py-1.5 font-medium'
+                                                >
+                                                    <Link to={link.href}>
+                                                        {link.label}
+                                                    </Link>
+                                                </NavigationMenuLink>
+                                            </NavigationMenuItem>
+                                        )}
+                                        {link.role === data?.data?.role && (
+                                            <NavigationMenuItem key={index}>
+                                                <NavigationMenuLink
+                                                    asChild
+                                                    className='text-muted-foreground hover:text-primary py-1.5 font-medium'
+                                                >
+                                                    <Link to={link.href}>
+                                                        {link.label}
+                                                    </Link>
+                                                </NavigationMenuLink>
+                                            </NavigationMenuItem>
+                                        )}
+                                    </>
                                 ))}
                             </NavigationMenuList>
                         </NavigationMenu>
@@ -128,15 +147,16 @@ function NavBar() {
                 {/* Right side */}
                 <div className='flex items-center gap-2'>
                     <ModeToggle />
-                    {data?.data.email ? (
+                    {data?.data?.email && (
                         <Button
                             onClick={handleLogout}
-                            variant={'outline'}
+                            variant='outline'
                             className='text-sm'
                         >
                             Logout
                         </Button>
-                    ) : (
+                    )}
+                    {!data?.data?.email && (
                         <Button asChild className='text-sm'>
                             <Link to='/login'>Login</Link>
                         </Button>

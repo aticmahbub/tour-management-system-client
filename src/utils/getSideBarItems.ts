@@ -1,17 +1,17 @@
 import {role} from '@/constants/role';
 import {adminSideBarItems} from '@/routes/adminSideBarItems';
-import {userSideBarItems} from '@/routes/userSideBarItems';
+import {userSidebarItems} from '@/routes/userSideBarItems';
 import type {TRole} from '@/types';
 
 export const getSideBarItems = (userRole: TRole) => {
     switch (userRole) {
         case role.superAdmin:
-            return [...adminSideBarItems, ...userSideBarItems];
+            return [...adminSideBarItems];
         case role.admin:
+            return [...adminSideBarItems];
         case role.user:
-            return [...userSideBarItems];
-
+            return [...userSidebarItems];
         default:
-            break;
+            return [];
     }
 };

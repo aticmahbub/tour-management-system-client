@@ -9,7 +9,7 @@ import {generateRoutes} from '@/utils/generateRoutes';
 
 import {createBrowserRouter} from 'react-router';
 import {adminSideBarItems} from './adminSideBarItems';
-import {userSideBarItems} from './userSideBarItems';
+import {userSidebarItems} from './userSideBarItems';
 
 export const router = createBrowserRouter([
     {
@@ -31,7 +31,7 @@ export const router = createBrowserRouter([
     {
         path: '/user',
         Component: DashboardLayout,
-        children: [...generateRoutes(userSideBarItems)],
+        children: [...generateRoutes(userSidebarItems)],
     },
     {
         path: '/login',

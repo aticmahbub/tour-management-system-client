@@ -1,7 +1,7 @@
 import Bookings from '@/pages/user/Bookings';
 import type {ISidebarItem} from '@/types';
 
-export const userSideBarItems: ISidebarItem[] = [
+export const userSidebarItems: ISidebarItem[] = [
     {
         title: 'History',
         items: [
