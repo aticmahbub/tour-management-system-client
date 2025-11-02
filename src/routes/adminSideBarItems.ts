@@ -1,8 +1,8 @@
 import AddTour from '@/pages/AddTour';
 import Analytics from '@/pages/Analytics';
-import type {ISideBarItems} from '@/types';
+import type {ISidebarItem} from '@/types';
 
-export const adminSideBarItems: ISideBarItems[] = [
+export const adminSideBarItems: ISidebarItem[] = [
     {
         title: 'Dashboard',
         items: [

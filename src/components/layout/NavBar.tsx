@@ -15,6 +15,7 @@ import {
     useUserInfoQuery,
 } from '@/redux/features/auth/auth.api';
 import {useDispatch} from 'react-redux';
+import {role} from '@/constants/role';
 
 function NavBar() {
     const {data} = useUserInfoQuery(undefined);
@@ -23,8 +24,10 @@ function NavBar() {
 
     console.log(data);
     const navigationLinks = [
-        {href: '/', label: 'Home'},
-        {href: '/about', label: 'About'},
+        {href: '/', label: 'Home', role: 'PUBLIC'},
+        {href: '/about', label: 'About', role: 'PUBLIC'},
+        {href: '/admin', label: 'Dashboard', role: role.admin},
+        {href: '/user', label: 'Dashboard', role: role.user},
     ];
 
     const handleLogout = () => {
