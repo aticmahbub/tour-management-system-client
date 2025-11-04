@@ -1,6 +1,5 @@
 import App from '@/App';
 import DashboardLayout from '@/components/layout/DashBoardLayout';
-import About from '@/pages/About';
 import Login from '@/pages/auth/Login';
 import Registration from '@/pages/auth/Registration';
 import Verify from '@/pages/auth/Verify';
@@ -8,6 +7,11 @@ import {generateRoutes} from '@/utils/generateRoutes';
 import {createBrowserRouter, Navigate} from 'react-router';
 import {adminSideBarItems} from './adminSideBarItems';
 import {userSidebarItems} from './userSideBarItems';
+import {withAuth} from '@/utils/withAuth';
+import About from '@/pages/About';
+import Unauthorized from '@/pages/Unauthorized';
+import {role} from '@/constants/role';
+import type {TRole} from '@/types';
 
 export const router = createBrowserRouter([
     {
@@ -15,14 +19,14 @@ export const router = createBrowserRouter([
         path: '/',
         children: [
             {
-                Component: About,
-                path: '/about',
+                Component: withAuth(About),
+                path: 'about',
             },
         ],
     },
     {
         path: '/admin',
-        Component: DashboardLayout,
+        Component: withAuth(DashboardLayout, role.superAdmin as TRole),
 
         children: [
             {index: true, element: <Navigate to='/admin/analytics' />},
@@ -48,5 +52,9 @@ export const router = createBrowserRouter([
     {
         path: '/verify',
         Component: Verify,
+    },
+    {
+        path: '/unauthorized',
+        Component: Unauthorized,
     },
 ]);
