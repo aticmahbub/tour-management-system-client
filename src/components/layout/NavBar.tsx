@@ -115,7 +115,7 @@ function NavBar() {
                                 {navigationLinks.map((link, index) => (
                                     <>
                                         {link.role === 'PUBLIC' && (
-                                            <NavigationMenuItem key={index}>
+                                            <NavigationMenuItem key={link.href}>
                                                 <NavigationMenuLink
                                                     asChild
                                                     className='text-muted-foreground hover:text-primary py-1.5 font-medium'

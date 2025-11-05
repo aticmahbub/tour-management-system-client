@@ -2,13 +2,13 @@ import {baseApi} from '@/redux/baseApi';
 
 export const tourApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
-        createTourType: builder.mutation({
-            query: (userInfo) => ({
-                url: '/auth/login',
-                method: 'POST',
-                data: userInfo,
-            }),
-        }),
+        // createTourType: builder.mutation({
+        //     query: (userInfo) => ({
+        //         url: '/auth/login',
+        //         method: 'POST',
+        //         data: userInfo,
+        //     }),
+        // }),
 
         getTourTypes: builder.query({
             query: () => ({

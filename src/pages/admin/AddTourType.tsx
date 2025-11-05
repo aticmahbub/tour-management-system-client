@@ -1,3 +1,4 @@
+import {AddTourTypeModal} from '@/components/modules/admin/tour/tourTypes/AddTourTypeModal';
 import {Button} from '@/components/ui/button';
 import {
     Table,
@@ -11,13 +12,20 @@ import {useGetTourTypesQuery} from '@/redux/features/tour/tour.api';
 import {Trash2} from 'lucide-react';
 
 function AddTourType() {
-    const {data} = useGetTourTypesQuery(undefined);
+    const {data, isLoading, isError} = useGetTourTypesQuery(undefined);
+
+    if (isLoading) return <p>Loading...</p>;
+    if (isError) return <p>Failed to load tour types</p>;
+
+    console.log('Tour types:', data);
+
     return (
         <div className='w-full max-w-7xl mx-auto px-5'>
             <div className='flex justify-between my-8'>
                 <h1 className='text-xl font-semibold'>Tour types</h1>
-                {/* <AddTourType /> */}
+                <AddTourTypeModal />
             </div>
+
             <div className='border border-muted rounded-md'>
                 <Table>
                     <TableHeader>
@@ -27,13 +35,13 @@ function AddTourType() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {data?.map((item: {name: string}, idx: number) => (
-                            <TableRow key={idx}>
+                        {data?.map((item: {name: string; _id: string}) => (
+                            <TableRow key={item._id}>
                                 <TableCell className='font-medium w-full'>
                                     {item.name}
                                 </TableCell>
-                                <TableCell className=''>
-                                    <Button size='sm'>
+                                <TableCell className='text-right'>
+                                    <Button size='sm' variant='destructive'>
                                         <Trash2 />
                                     </Button>
                                 </TableCell>

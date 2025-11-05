@@ -9,50 +9,71 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog';
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from '@/components/ui/form';
 import {Input} from '@/components/ui/input';
-import {Label} from '@/components/ui/label';
+import {useForm} from 'react-hook-form';
 
 export function AddTourTypeModal() {
+    const form = useForm();
+    const onSubmit = (data) => {
+        console.log(data);
+    };
+
     return (
         <Dialog>
-            <form>
-                <DialogTrigger asChild>
-                    <Button variant='outline'>Open Dialog</Button>
-                </DialogTrigger>
-                <DialogContent className='sm:max-w-[425px]'>
-                    <DialogHeader>
-                        <DialogTitle>Edit profile</DialogTitle>
-                        <DialogDescription>
-                            Make changes to your profile here. Click save when
-                            you&apos;re done.
-                        </DialogDescription>
-                    </DialogHeader>
-                    <div className='grid gap-4'>
-                        <div className='grid gap-3'>
-                            <Label htmlFor='name-1'>Name</Label>
-                            <Input
-                                id='name-1'
-                                name='name'
-                                defaultValue='Pedro Duarte'
-                            />
-                        </div>
-                        <div className='grid gap-3'>
-                            <Label htmlFor='username-1'>Username</Label>
-                            <Input
-                                id='username-1'
-                                name='username'
-                                defaultValue='@peduarte'
-                            />
-                        </div>
-                    </div>
-                    <DialogFooter>
-                        <DialogClose asChild>
-                            <Button variant='outline'>Cancel</Button>
-                        </DialogClose>
-                        <Button type='submit'>Save changes</Button>
-                    </DialogFooter>
-                </DialogContent>
-            </form>
+            <DialogTrigger asChild>
+                <Button variant='outline'>Add Tour Type</Button>
+            </DialogTrigger>
+
+            <DialogContent className='sm:max-w-[425px]'>
+                <DialogHeader>
+                    <DialogTitle>Add New Tour Type</DialogTitle>
+                    <DialogDescription>
+                        Enter a name for your new tour type and click “Save”.
+                    </DialogDescription>
+                </DialogHeader>
+
+                <Form {...form}>
+                    <form
+                        id='add-tour-type'
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className='grid gap-4'
+                    >
+                        <FormField
+                            control={form.control}
+                            name='name'
+                            render={({field}) => (
+                                <FormItem>
+                                    <FormLabel>Enter tour type</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            placeholder='Tour'
+                                            {...field}
+                                            value={field.value || ''}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    </form>
+                </Form>
+                <DialogFooter>
+                    <DialogClose asChild>
+                        <Button variant='outline'>Cancel</Button>
+                    </DialogClose>
+                    <Button form='add-tour-type' type='submit'>
+                        Save
+                    </Button>
+                </DialogFooter>
+            </DialogContent>
         </Dialog>
     );
 }
