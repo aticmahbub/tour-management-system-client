@@ -24,11 +24,12 @@ function AddTourType() {
         const toastId = toast.loading('Deleting toast...');
         try {
             const res = await deleteTourType(tourId).unwrap();
-
+            console.log(res);
             if (res.success) {
                 toast.success('Removed', {id: toastId});
             }
-        } catch (error) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
             toast.error('Could not delete ', error);
         }
     };
