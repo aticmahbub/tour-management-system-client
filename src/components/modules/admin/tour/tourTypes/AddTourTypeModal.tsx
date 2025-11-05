@@ -18,12 +18,17 @@ import {
     FormMessage,
 } from '@/components/ui/form';
 import {Input} from '@/components/ui/input';
-import {useForm} from 'react-hook-form';
+import {useCreateTourTypeMutation} from '@/redux/features/tour/tour.api';
+import {useForm, type FieldValues, type SubmitHandler} from 'react-hook-form';
+import {toast} from 'sonner';
 
 export function AddTourTypeModal() {
+    const [createTourType] = useCreateTourTypeMutation();
     const form = useForm();
-    const onSubmit = (data) => {
-        console.log(data);
+
+    const onSubmit: SubmitHandler<FieldValues> = (data) => {
+        createTourType(data);
+        toast.success('Tour type created');
     };
 
     return (
