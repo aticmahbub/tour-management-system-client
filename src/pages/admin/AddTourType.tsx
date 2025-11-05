@@ -9,16 +9,32 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import {useGetTourTypesQuery} from '@/redux/features/tour/tour.api';
+import {
+    useDeleteTourTypeMutation,
+    useGetTourTypesQuery,
+} from '@/redux/features/tour/tour.api';
 import {Trash2} from 'lucide-react';
+import {toast} from 'sonner';
 
 function AddTourType() {
     const {data, isLoading, isError} = useGetTourTypesQuery(undefined);
+    const [deleteTourType] = useDeleteTourTypeMutation();
+
+    const handleDeleteTourType = async (tourId: string) => {
+        const toastId = toast.loading('Deleting toast...');
+        try {
+            const res = await deleteTourType(tourId).unwrap();
+
+            if (res.success) {
+                toast.success('Removed', {id: toastId});
+            }
+        } catch (error) {
+            toast.error('Could not delete ', error);
+        }
+    };
 
     if (isLoading) return <p>Loading...</p>;
     if (isError) return <p>Failed to load tour types</p>;
-
-    console.log('Tour types:', data);
 
     return (
         <div className='w-full max-w-7xl mx-auto px-5'>
@@ -42,7 +58,11 @@ function AddTourType() {
                                     {item.name}
                                 </TableCell>
                                 <TableCell className='text-right'>
-                                    <DeleteConfirmation>
+                                    <DeleteConfirmation
+                                        onConfirm={() =>
+                                            handleDeleteTourType(item._id)
+                                        }
+                                    >
                                         <Button size='sm' variant='destructive'>
                                             <Trash2 />
                                         </Button>

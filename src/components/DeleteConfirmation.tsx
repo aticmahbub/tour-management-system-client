@@ -13,11 +13,12 @@ import type {ReactNode} from 'react';
 
 interface IProps {
     children: ReactNode;
+    onConfirm: () => void;
 }
 
-export function DeleteConfirmation({children}: IProps) {
+export function DeleteConfirmation({children, onConfirm}: IProps) {
     const handleConfirm = () => {
-        console.log('handleConfirm');
+        onConfirm();
     };
     return (
         <AlertDialog>
