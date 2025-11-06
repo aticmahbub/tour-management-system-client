@@ -11,15 +11,15 @@ export const divisionApi = baseApi.injectEndpoints({
             invalidatesTags: ['DIVISION'],
         }),
 
-        // getTourTypes: builder.query({
-        //     query: () => ({
-        //         url: '/tour/tour-types',
-        //         method: 'GET',
-        //     }),
-        //     providesTags: ['TOUR-TYPE'],
-        //     transformResponse: (res) => res.data,
-        // }),
+        getDivisions: builder.query({
+            query: () => ({
+                url: '/division',
+                method: 'GET',
+            }),
+            providesTags: ['DIVISION'],
+            transformResponse: (res) => res.data,
+        }),
     }),
 });
 
-export const {useCreateDivisionMutation} = divisionApi;
+export const {useCreateDivisionMutation, useGetDivisionsQuery} = divisionApi;
