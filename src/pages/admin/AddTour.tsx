@@ -127,6 +127,42 @@ export default function AddTour() {
         },
     });
 
+    const {
+        fields: includedFields,
+        append: appendIncluded,
+        remove: removeIncluded,
+    } = useFieldArray({
+        control: form.control,
+        name: 'included',
+    });
+
+    const {
+        fields: excludedFields,
+        append: appendExcluded,
+        remove: removeExcluded,
+    } = useFieldArray({
+        control: form.control,
+        name: 'excluded',
+    });
+
+    const {
+        fields: amenitiesFields,
+        append: appendAmenities,
+        remove: removeAmenities,
+    } = useFieldArray({
+        control: form.control,
+        name: 'amenities',
+    });
+
+    const {
+        fields: tourPlanFields,
+        append: appendTourPlan,
+        remove: removeTourPlan,
+    } = useFieldArray({
+        control: form.control,
+        name: 'tourPlan',
+    });
+
     const handleSubmit = async (data: z.infer<typeof formSchema>) => {
         const toastId = toast.loading('Creating tour....');
 
@@ -174,8 +210,8 @@ export default function AddTour() {
             } else {
                 toast.error('Something went wrong', {id: toastId});
             }
-        } catch (err: unknown) {
-            console.error(err);
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (err: any) {
             toast.error(err.message || 'Something went wrong', {
                 id: toastId,
             });
