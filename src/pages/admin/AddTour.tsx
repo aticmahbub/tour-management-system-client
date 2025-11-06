@@ -65,7 +65,7 @@ const formSchema = z.object({
 });
 
 export default function AddTour() {
-    const [images, setImages] = useState<File[] | FileMetadata[]>([]);
+    const [images, setImages] = useState<(File | FileMetadata)[] | []>([]);
 
     const {data: divisionData, isLoading: divisionLoading} =
         useGetDivisionsQuery(undefined);
