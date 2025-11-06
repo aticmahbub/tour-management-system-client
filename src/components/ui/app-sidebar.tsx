@@ -21,9 +21,7 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
 
     const data = {
         navMain: getSideBarItems(userData?.data?.role),
-        // navMain: getSideBarItems('USER'),
     };
-    console.log(data);
     return (
         <Sidebar {...props}>
             <SidebarHeader className='items-center'>

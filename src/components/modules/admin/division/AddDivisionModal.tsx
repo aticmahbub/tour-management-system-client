@@ -1,3 +1,4 @@
+import SingleImageUploader from '@/components/SingleImageUploader';
 import {Button} from '@/components/ui/button';
 import {
     Dialog,
@@ -19,17 +20,41 @@ import {
 } from '@/components/ui/form';
 import {Input} from '@/components/ui/input';
 import {Textarea} from '@/components/ui/textarea';
+import {useCreateDivisionMutation} from '@/redux/features/division/division.api';
+import {useState} from 'react';
 import {useForm, type FieldValues, type SubmitHandler} from 'react-hook-form';
+import {toast} from 'sonner';
 
 export function AddDivisionModal() {
+    const [image, setImage] = useState<File | null>(null);
+    const [open, setOpen] = useState(false);
     const form = useForm();
 
-    const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        console.log(data);
+    const [createDivision] = useCreateDivisionMutation();
+
+    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+        const toastId = toast.loading('Creating division...');
+
+        const formData = new FormData();
+        formData.append('data', JSON.stringify(data));
+        formData.append('file', image as File);
+
+        try {
+            const res = await createDivision(formData).unwrap();
+            if (res.success) {
+                toast.success('Division is created successfully', {
+                    id: toastId,
+                });
+                setOpen(false);
+            }
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            toast.error('Failed to create division', error);
+        }
     };
 
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Button variant='outline'>Add division</Button>
             </DialogTrigger>
@@ -84,6 +109,7 @@ export function AddDivisionModal() {
                             )}
                         />
                     </form>
+                    <SingleImageUploader onChange={setImage} />
                 </Form>
                 <DialogFooter>
                     <DialogClose asChild>
