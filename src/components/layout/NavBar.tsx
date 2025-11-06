@@ -27,6 +27,7 @@ function NavBar() {
     const navigationLinks = [
         {href: '/', label: 'Home', role: 'PUBLIC'},
         {href: '/about', label: 'About', role: 'PUBLIC'},
+        {href: '/tours', label: 'Tours', role: 'PUBLIC'},
         {href: '/admin', label: 'Dashboard', role: role.admin},
         {href: '/super-admin', label: 'Dashboard', role: role.superAdmin},
         {href: '/user', label: 'Dashboard', role: role.user},

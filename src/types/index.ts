@@ -1,5 +1,6 @@
 import type {ComponentType} from 'react';
 
+export type {ITour} from './tour.types';
 export type {ISendOTP, IVerifyOTP} from './otp.types';
 export type {ILogin} from './login.types';
 
