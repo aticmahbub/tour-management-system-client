@@ -12,9 +12,9 @@ import About from '@/pages/About';
 import Unauthorized from '@/pages/Unauthorized';
 import {role} from '@/constants/role';
 import type {TRole} from '@/types';
-import Tours from '@/pages/admin/Tours';
-import TourDetails from '@/pages/admin/TourDetails';
-import Booking from '@/pages/admin/Booking';
+import Tours from '@/pages/Tours';
+import TourDetails from '@/pages/TourDetails';
+import Booking from '@/pages/user/Booking';
 import HomePage from '@/pages/HomePage';
 
 export const router = createBrowserRouter([

@@ -53,4 +53,5 @@ export const {
     useCreateTourTypeMutation,
     useDeleteTourTypeMutation,
     useCreateTourMutation,
+    useGetToursQuery,
 } = tourApi;
