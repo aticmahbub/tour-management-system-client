@@ -1,4 +1,5 @@
 import {Button} from '@/components/ui/button';
+import {useCreateBookingMutation} from '@/redux/features/booking/booking.api';
 import {useGetToursQuery} from '@/redux/features/tour/tour.api';
 import {useEffect, useState} from 'react';
 import {useParams} from 'react-router';
@@ -11,8 +12,7 @@ export default function Booking() {
 
     const {id} = useParams();
     const {data, isLoading, isError} = useGetToursQuery({_id: id});
-    //   const [createBooking] = useCreateBookingMutation();
-    let createBooking;
+    const [createBooking] = useCreateBookingMutation();
 
     const tourData = data?.[0];
 
